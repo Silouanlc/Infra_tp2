@@ -65,7 +65,7 @@ lrwxrwxrwx. 1 root root 0 Jan 27 12:31 user -> 'user:[4026531837]'
 lrwxrwxrwx. 1 root root 0 Jan 27 12:31 uts -> 'uts:[4026531838]'
 [root@localhost ~]# 
 ~~~
-
+----
 #### Avec docker
 
 <p>Lancer un conteneur qui tourne en tâche de fond, sur un sleep </p>
@@ -73,21 +73,28 @@ lrwxrwxrwx. 1 root root 0 Jan 27 12:31 uts -> 'uts:[4026531838]'
 
   
 ~~~
-[root@localhost ~]# docker inspect -f '{{ .State.Pid }}' 3d599ee6265f
-2974
+[root@localhost ~]# docker inspect -f '{{ .State.Pid }}' c11b677f953f
+4228
+[root@localhost ~]# ls -al /proc/4228/ns
+total 0
+dr-x--x--x. 2 root root 0 Jan 27 14:17 .
+dr-xr-xr-x. 9 root root 0 Jan 27 14:17 ..
+lrwxrwxrwx. 1 root root 0 Jan 27 14:18 cgroup -> 'cgroup:[4026531835]'
+lrwxrwxrwx. 1 root root 0 Jan 27 14:18 ipc -> 'ipc:[4026532228]'
+lrwxrwxrwx. 1 root root 0 Jan 27 14:18 mnt -> 'mnt:[4026532226]'
+lrwxrwxrwx. 1 root root 0 Jan 27 14:17 net -> 'net:[4026532231]'
+lrwxrwxrwx. 1 root root 0 Jan 27 14:18 pid -> 'pid:[4026532229]'
+lrwxrwxrwx. 1 root root 0 Jan 27 14:18 pid_for_children -> 'pid:[4026532229]'
+lrwxrwxrwx. 1 root root 0 Jan 27 14:18 user -> 'user:[4026531837]'
+lrwxrwxrwx. 1 root root 0 Jan 27 14:18 uts -> 'uts:[4026532227]'
 ~~~
-~~~
-[root@localhost ~]# ps -e | grep 2974
- 2974 ?        00:00:00 sleep
-[root@localhost ~]# docker ps
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-3d599ee6265f        debian              "sleep 99999"       6 minutes ago       Up 6 minutes                            awesome_mendel
-[root@localhost ~]# kill -9 2974
-[root@localhost ~]# docker ps
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-
-~~~
+----
 
 #### nsenter
+
+~~~
+[root@localhost ~]# nsenter -t 1833 -u -n
+[root@d0717b136b28 ~]# 
+~~~
 
 
