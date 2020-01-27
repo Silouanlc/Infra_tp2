@@ -1,4 +1,4 @@
-# Namespaces
+https://github.com/It4lik?tab=repositories# Namespaces
 
 #### Exploration manuelle
 
@@ -64,5 +64,26 @@ lrwxrwxrwx. 1 root root 0 Jan 27 12:31 pid_for_children -> 'pid:[4026531836]'
 lrwxrwxrwx. 1 root root 0 Jan 27 12:31 user -> 'user:[4026531837]'
 lrwxrwxrwx. 1 root root 0 Jan 27 12:31 uts -> 'uts:[4026531838]'
 [root@localhost ~]# 
+~~~
+
+#### Avec docker
+
+<p>Lancer un conteneur qui tourne en tâche de fond, sur un sleep :</p>
+
+  
+~~~
+[root@localhost ~]# docker inspect -f '{{ .State.Pid }}' 3d599ee6265f
+2974
+~~~*
+~~~
+[root@localhost ~]# ps -e | grep 2974
+ 2974 ?        00:00:00 sleep
+[root@localhost ~]# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+3d599ee6265f        debian              "sleep 99999"       6 minutes ago       Up 6 minutes                            awesome_mendel
+[root@localhost ~]# kill -9 2974
+[root@localhost ~]# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+
 ~~~
 
