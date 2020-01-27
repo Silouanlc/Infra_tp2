@@ -68,7 +68,8 @@ lrwxrwxrwx. 1 root root 0 Jan 27 12:31 uts -> 'uts:[4026531838]'
 
 #### Avec docker
 
-<p>Lancer un conteneur qui tourne en tâche de fond, sur un sleep :</p>
+<p>Lancer un conteneur qui tourne en tâche de fond, sur un sleep 
+🌞 Trouver dans quels namespaces ce conteneur s'exécute.</p>
 
   
 ~~~
