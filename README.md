@@ -19,3 +19,8 @@ lrwxrwxrwx. 1 root root 0 Jan 27 10:38 pid_for_children -> 'pid:[4026531836]'
 lrwxrwxrwx. 1 root root 0 Jan 27 10:25 user -> 'user:[4026531837]'
 lrwxrwxrwx. 1 root root 0 Jan 27 10:25 uts -> 'uts:[4026531838]'
 ~~~~~
+
+#### Unshare
+
+<p>On peut créer des namespaces avec l'appel système unshare(). Il existe une commande unshare qui nous permet de l'utiliser directement.</p>
+🌞 Créer un pseudo-conteneur à la main en utilisant unshare
