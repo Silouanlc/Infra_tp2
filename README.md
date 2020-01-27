@@ -90,11 +90,29 @@ lrwxrwxrwx. 1 root root 0 Jan 27 14:18 uts -> 'uts:[4026532227]'
 ~~~
 ----
 
-#### nsenter
+#### Nsenter
 
 ~~~
 [root@localhost ~]# nsenter -t 1833 -u -n
+[root@d0717b136b28 ~]# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+5: eth0@if6: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
 [root@d0717b136b28 ~]# 
+~~~
+----
+
+#### Et alors, les namespaces User ?
+
+<p> Mettez en place la configuration nécessaire pour que Docker utilise les namespaces de type User. </p>
+
+~~~
+
 ~~~
 
 
