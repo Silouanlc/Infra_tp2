@@ -74,7 +74,7 @@ lrwxrwxrwx. 1 root root 0 Jan 27 12:31 uts -> 'uts:[4026531838]'
 ~~~
 [root@localhost ~]# docker inspect -f '{{ .State.Pid }}' 3d599ee6265f
 2974
-~~~*
+~~~
 ~~~
 [root@localhost ~]# ps -e | grep 2974
  2974 ?        00:00:00 sleep
