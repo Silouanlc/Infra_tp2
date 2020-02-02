@@ -314,3 +314,10 @@ write(2, "ping: socket: Operation not perm"..., 38ping: socket: Operation not pe
 ### Utilisation par Docker
 
 🌞 lancer un conteneur NGINX qui a le strict nécessaire de capabilities pour fonctionner
+
+~~~
+docker run --cap-drop all --cap-add chown --cap-add setuid --cap-add setgid --cap-add=net_bind_service -d nginx
+~~~
+chown: manipuler les droits sur les fichiers
+setgid: manipuler les proccess
+net_bind_service: binder les ports
