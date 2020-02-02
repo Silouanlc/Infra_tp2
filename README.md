@@ -318,6 +318,6 @@ write(2, "ping: socket: Operation not perm"..., 38ping: socket: Operation not pe
 ~~~
 docker run --cap-drop all --cap-add chown --cap-add setuid --cap-add setgid --cap-add=net_bind_service -d nginx
 ~~~
-chown: manipuler les droits sur les fichiers
-setgid: manipuler les proccess
-net_bind_service: binder les ports
+<p>chown: manipuler les droits sur les fichiers</p>
+<p>setgid: manipuler les proccess</p>
+<p>net_bind_service: binder les ports</p>
