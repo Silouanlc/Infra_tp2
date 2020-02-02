@@ -119,10 +119,30 @@ lrwxrwxrwx. 1 root root 0 Jan 27 14:18 uts -> 'uts:[4026532227]'
 🌞 lancer un conteneur simple:
 
 docker run -d -p 8888:7777 debian sleep 99999
+
 ~~~
 [root@localhost toor]# docker run -d -p 8888:7777 debian sleep 99999
 7822bed26a9e6312b2bcbeea5f508a8590cab3c8860b41a45a5f6b31b80032d1
 [root@localhost toor]# docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
 7822bed26a9e        debian              "sleep 99999"       3 seconds ago       Up 2 seconds        0.0.0.0:8888->7777/tcp   boring_ardinghelli
+~~~
+
+sd
+
+~~~
+[root@localhost toor]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
+7822bed26a9e        debian              "sleep 99999"       3 seconds ago       Up 2 seconds        0.0.0.0:8888->7777/tcp   boring_ardinghelli
+[root@localhost toor]# docker exec -it boring_ardinghelli bash
+root@7822bed26a9e:/# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+6: eth0@if7: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+root@7822bed26a9e:/#
 ~~~
