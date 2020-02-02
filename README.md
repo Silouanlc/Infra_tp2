@@ -115,4 +115,14 @@ lrwxrwxrwx. 1 root root 0 Jan 27 14:18 uts -> 'uts:[4026532227]'
 
 ~~~
 
+----
+🌞 lancer un conteneur simple:
 
+docker run -d -p 8888:7777 debian sleep 99999
+~~~
+[root@localhost toor]# docker run -d -p 8888:7777 debian sleep 99999
+7822bed26a9e6312b2bcbeea5f508a8590cab3c8860b41a45a5f6b31b80032d1
+[root@localhost toor]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES
+7822bed26a9e        debian              "sleep 99999"       3 seconds ago       Up 2 seconds        0.0.0.0:8888->7777/tcp   boring_ardinghelli
+~~~
