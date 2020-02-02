@@ -269,5 +269,48 @@ groups=
 ~~~
 
 🌞 Déterminer les capabilities du processus lancé par un conteneur Docker
+~~~
+CapInh: 0000000000000000
+CapPrm: 0000003fffffffff
+CapEff: 0000003fffffffff
+CapBnd: 0000003fffffffff
+CapAmb: 0000000000000000
+~~~
 
+🌞 Jouer avec ping
+~~~
+/usr/sbin/ping
+~~~
+récupérer la liste de ses capabilities
+~~~
+[root@localhost sbin]# getcap  /usr/bin/ping
+/usr/bin/ping = cap_net_admin,cap_net_raw+p
+~~~
+enlever toutes les capabilities
+~~~
+[root@localhost sbin]# getcap  /usr/bin/ping
+/usr/bin/ping =
+~~~
+vérifier que ping ne fonctionne plus
+~~~
+[toor@localhost sbin]$ ping 8.8.8.8
+ping: socket: Operation not permitted
+~~~
+~~~
+capget({version=_LINUX_CAPABILITY_VERSION_3, pid=0}, {effective=0, permitted=0, inheritable=0}) = 0
+socket(AF_INET, SOCK_DGRAM, IPPROTO_ICMP) = -1 EACCES (Permission denied)
+socket(AF_INET, SOCK_RAW, IPPROTO_ICMP) = -1 EPERM (Operation not permitted)
+socket(AF_INET6, SOCK_DGRAM, IPPROTO_ICMPV6) = -1 EACCES (Permission denied)
+socket(AF_INET6, SOCK_RAW, IPPROTO_ICMPV6) = -1 EPERM (Operation not permitted)
+openat(AT_FDCWD, "/usr/share/locale/en_US.UTF-8/LC_MESSAGES/libc.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/usr/share/locale/en_US.utf8/LC_MESSAGES/libc.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/usr/share/locale/en_US/LC_MESSAGES/libc.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/usr/share/locale/en.UTF-8/LC_MESSAGES/libc.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/usr/share/locale/en.utf8/LC_MESSAGES/libc.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/usr/share/locale/en/LC_MESSAGES/libc.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+write(2, "ping: socket: Operation not perm"..., 38ping: socket: Operation not permitted
+~~~
 
+### Utilisation par Docker
+
+🌞 lancer un conteneur NGINX qui a le strict nécessaire de capabilities pour fonctionner
