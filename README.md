@@ -207,4 +207,42 @@ target     prot opt source               destination
 RETURN     all  --  anywhere             anywhere
 ~~~  
 
+# Cgroups
+
+### Découverte manuelle
+
+🌞 Lancer un conteneur Docker et déduire dans quel cgroup il s'exécute
+~~~  
+
+Control Group                                                                                                      Tasks   %CPU   Memory  Input/s Output/s
+/                                                                                                                    138    1.0   698.9M        -        -
+/system.slice                                                                                                         68    0.1   466.1M        -        -
+/system.slice/containerd.service                                                                                      19    0.1    65.2M        -        -
+/system.slice/tuned.service                                                                                            4    0.0    21.9M        -        -
+/system.slice/docker.service                                                                                          15    0.0   125.6M        -        -
+/system.slice/rsyslog.service                                                                                          3    0.0     3.9M        -        -
+/docker                                                                                                                1      -     5.6M        -        -
+/docker/7822bed26a9e6312b2bcbeea5f508a8590cab3c8860b41a45a5f6b31b80032d1
+~~~  
+
+### Utilisation par Docker
+
+🌞 Lancer un conteneur Docker et trouver
+
+~~~  
+CONTAINER ID        NAME                 CPU %               MEM USAGE / LIMIT   MEM %               NET I/O             BLOCK I/O           PIDS
+7822bed26a9e        boring_ardinghelli   0.00%               720KiB / 1.787GiB   0.04%               2.5kB / 0B          10.9MB / 0B         1
+~~~  
+~~~
+[root@localhost docker]# ls
+7822bed26a9e6312b2bcbeea5f508a8590cab3c8860b41a45a5f6b31b80032d1  cpuacct.usage_all          cpuacct.usage_user  cpu.shares
+cgroup.clone_children                                             cpuacct.usage_percpu       cpu.cfs_period_us   cpu.stat
+cgroup.procs                                                      cpuacct.usage_percpu_sys   cpu.cfs_quota_us    notify_on_release
+cpuacct.stat                                                      cpuacct.usage_percpu_user  cpu.rt_period_us    tasks
+cpuacct.usage                                                     cpuacct.usage_sys          cpu.rt_runtime_us
+[root@localhost docker]# cat cpu.shares
+1024
+~~~
+
+🌞 Altérer les valeurs cgroups allouées par défaut avec des options de la commandes docker run (au moins 3)
 
