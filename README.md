@@ -128,7 +128,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 7822bed26a9e        debian              "sleep 99999"       3 seconds ago       Up 2 seconds        0.0.0.0:8888->7777/tcp   boring_ardinghelli
 ~~~
 
-sd
+🌞 vérifier le réseau du conteneur
 
 ~~~
 [root@localhost toor]# docker ps -a
@@ -146,3 +146,65 @@ root@7822bed26a9e:/# ip a
        valid_lft forever preferred_lft forever
 root@7822bed26a9e:/#
 ~~~
+~~~
+7: veth8adb334@if6: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP group default
+    link/ether e6:6b:ee:eb:99:79 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet6 fe80::e46b:eeff:feeb:9979/64 scope link
+       valid_lft forever preferred_lft forever
+~~~
+
+🌞 vérifier le réseau sur l'hôte
+vérifier qu'il existe une première carte réseau qui porte une IP dans le même réseau que le conteneur
+~~~
+ 5: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default
+    link/ether 02:42:a3:cf:fc:1b brd ff:ff:ff:ff:ff:ff
+    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::42:a3ff:fecf:fc1b/64 scope link
+       valid_lft forever preferred_lft forever
+~~~
+vérifier qu'il existe une deuxième carte réseau, qui est la deuxième interface de la veth pair
+~~~
+7: veth8adb334@if6: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP group default
+    link/ether e6:6b:ee:eb:99:79 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet6 fe80::e46b:eeff:feeb:9979/64 scope link
+       valid_lft forever preferred_lft forever
+~~~
+identifier les règles iptables liées à la création de votre conteneur
+~~~
+[root@localhost toor]# iptables --list
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination
+DOCKER-USER  all  --  anywhere             anywhere
+DOCKER-ISOLATION-STAGE-1  all  --  anywhere             anywhere
+ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED
+DOCKER     all  --  anywhere             anywhere
+ACCEPT     all  --  anywhere             anywhere
+ACCEPT     all  --  anywhere             anywhere
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+
+Chain DOCKER (1 references)
+target     prot opt source               destination
+ACCEPT     tcp  --  anywhere             172.17.0.2           tcp dpt:cbt
+
+Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+target     prot opt source               destination
+DOCKER-ISOLATION-STAGE-2  all  --  anywhere             anywhere
+RETURN     all  --  anywhere             anywhere
+
+Chain DOCKER-ISOLATION-STAGE-2 (1 references)
+target     prot opt source               destination
+DROP       all  --  anywhere             anywhere
+RETURN     all  --  anywhere             anywhere
+
+Chain DOCKER-USER (1 references)
+target     prot opt source               destination
+RETURN     all  --  anywhere             anywhere
+~~~  
+
+
