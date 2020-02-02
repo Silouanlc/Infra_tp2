@@ -245,4 +245,29 @@ cpuacct.usage                                                     cpuacct.usage_
 ~~~
 
 🌞 Altérer les valeurs cgroups allouées par défaut avec des options de la commandes docker run (au moins 3)
+~~~
+[root@localhost docker]# docker run -d --memory=2g --memory-swap=-1 --cpus 1.00 -p 8888:7777 debian sleep 99999
+cb79f23e690f9d2c5946d7992ea0a3963e6eccf37b5c0e468fea4e69875790a1
+~~~
+----
+# Capabilities
+
+### Découverte manuelle
+
+🌞 déterminer les capabilities actuellement utilisées par votre shell
+~~~
+root@89ab7b9f3e0f:/# capsh --print
+Current: = cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap+eip
+Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_net_raw,cap_sys_chroot,cap_mknod,cap_audit_write,cap_setfcap
+Securebits: 00/0x0/1'b0
+ secure-noroot: no (unlocked)
+ secure-no-suid-fixup: no (unlocked)
+ secure-keep-caps: no (unlocked)
+uid=0(root)
+gid=0(root)
+groups=
+~~~
+
+🌞 Déterminer les capabilities du processus lancé par un conteneur Docker
+
 
